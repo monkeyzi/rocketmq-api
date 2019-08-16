@@ -22,9 +22,8 @@ public class ScheduledMqProducer {
         int totalMessagesToSend = 10;
         for (int i = 0; i < totalMessagesToSend; i++) {
             Message message = new Message("topic_sched", "tag_sched",("Hello scheduled message " + i).getBytes());
-            // This message will be delivered to consumer 60 seconds later.
+            // 消息60s后才会被消费
             message.setDelayTimeLevel(5);
-            // Send the message
             SendResult sendResult = producer.send(message);
             System.out.println("消息发送："+sendResult.getSendStatus());
         }
