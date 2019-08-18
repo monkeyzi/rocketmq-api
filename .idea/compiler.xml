@@ -11,9 +11,5 @@
         <module name="rocketmq-api-pro" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="8">
-      <module name="rocketmq-api-common-core" target="1.5" />
-      <module name="rocketmqapicommoncore" target="1.5" />
-    </bytecodeTargetLevel>
   </component>
 </project>
