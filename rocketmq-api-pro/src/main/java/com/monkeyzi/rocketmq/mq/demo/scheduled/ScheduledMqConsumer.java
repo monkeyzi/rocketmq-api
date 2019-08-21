@@ -18,21 +18,21 @@ public class ScheduledMqConsumer {
 
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("scheduled_consumer_group_name");
         consumer.setNamesrvAddr(MqConstant.NAMESRV_ADDR);
-        // Subscribe topics
+        // 订阅主题
         consumer.subscribe("topic_sched", "*");
 
         consumer.registerMessageListener(new MessageListenerConcurrently() {
             @Override
             public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> messages, ConsumeConcurrentlyContext context) {
                 for (MessageExt message : messages) {
-                    // Print approximate delay time period
-                    System.out.println("Receive message[msg=" + new String(message.getBody()) + "] "
-                            + (System.currentTimeMillis() - message.getStoreTimestamp()) + "ms later");
+
+                    System.out.println("收到消息[msg=" + new String(message.getBody()) + "] 在"
+                            + (System.currentTimeMillis() - message.getStoreTimestamp()) + "ms 之后");
                 }
                 return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
             }
         });
-        // Launch consumer
+        // 启动consumer
         consumer.start();
         System.out.println("消费者启动成功");
     }

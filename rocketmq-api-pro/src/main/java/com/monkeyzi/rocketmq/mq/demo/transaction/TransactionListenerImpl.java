@@ -7,7 +7,11 @@ import org.apache.rocketmq.common.message.MessageExt;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
-
+/**
+ * @author monkeyzi
+ * @date 2019/8/21 17:21
+ * @description  事务回查监听
+ **/
 public class TransactionListenerImpl  implements TransactionListener {
 
     private AtomicInteger transactionIndex = new AtomicInteger(0);
@@ -21,9 +25,10 @@ public class TransactionListenerImpl  implements TransactionListener {
      */
     @Override
     public LocalTransactionState executeLocalTransaction(Message message, Object o) {
-        System.out.println("执行本地事务:"+o);
+        // 这里的o就是发送事务消息的时候，传入的参数
+        System.out.println("执行本地事务,业务key="+o);
         int value = transactionIndex.getAndIncrement();
-        System.out.println("value="+value);
+        System.out.println("执行本地事务transactionId："+message.getTransactionId()+"===value:"+value);
         int status=value % 3;
         localTrans.put(message.getTransactionId(), status);
         return LocalTransactionState.UNKNOW;
@@ -36,8 +41,8 @@ public class TransactionListenerImpl  implements TransactionListener {
      */
     @Override
     public LocalTransactionState checkLocalTransaction(MessageExt messageExt) {
-        System.out.println("本地事务会查:");
         Integer status=localTrans.get(messageExt.getTransactionId());
+        System.out.println("执行本地事务会查transcationId:"+messageExt.getTransactionId()+"===status:"+status);
         if (null!=status){
             switch (status) {
                 case 0:
@@ -47,6 +52,8 @@ public class TransactionListenerImpl  implements TransactionListener {
                 case 2:
                     return LocalTransactionState.ROLLBACK_MESSAGE;
             }
+        }else {
+            return LocalTransactionState.UNKNOW;
         }
         return LocalTransactionState.COMMIT_MESSAGE;
     }

@@ -25,7 +25,7 @@ public class MqSyncProducer {
         producer.start();
         for (int i=0;i<5;i++){
             Message message=new Message("topic_1","tag1",("hello_world"+i).getBytes(RemotingHelper.DEFAULT_CHARSET));
-            SendResult result=producer.send(message);
+            SendResult result=producer.send(message,5);
             /**    SendResult的发送结果有四种状态
              *     SEND_OK,  成功
              *     FLUSH_DISK_TIMEOUT, 消息发送成功，但是服务器刷盘超时，消息已经进入服务器队列，
