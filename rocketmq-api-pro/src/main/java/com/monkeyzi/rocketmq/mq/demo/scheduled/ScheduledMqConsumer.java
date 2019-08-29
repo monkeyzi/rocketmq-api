@@ -5,10 +5,8 @@ import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
-import org.apache.rocketmq.client.exception.MQBrokerException;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.common.message.MessageExt;
-import org.apache.rocketmq.remoting.exception.RemotingException;
 
 import java.util.List;
 
@@ -26,7 +24,7 @@ public class ScheduledMqConsumer {
             public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> messages, ConsumeConcurrentlyContext context) {
                 for (MessageExt message : messages) {
 
-                    System.out.println("收到消息[msg=" + new String(message.getBody()) + "] 在"
+                    System.out.println("收到消息[msg=" + new String(message.getBody()) + "] -----在"
                             + (System.currentTimeMillis() - message.getStoreTimestamp()) + "ms 之后");
                 }
                 return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;

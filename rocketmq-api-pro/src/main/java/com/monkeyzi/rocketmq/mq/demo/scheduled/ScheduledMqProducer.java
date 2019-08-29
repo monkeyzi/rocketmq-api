@@ -19,7 +19,7 @@ public class ScheduledMqProducer {
         DefaultMQProducer producer=new DefaultMQProducer("scheduled_producer_group__name");
         producer.setNamesrvAddr(MqConstant.NAMESRV_ADDR);
         producer.start();
-        int totalMessagesToSend = 10;
+        int totalMessagesToSend = 2;
         for (int i = 0; i < totalMessagesToSend; i++) {
             Message message = new Message("topic_sched", "tag_sched",("Hello scheduled message " + i).getBytes());
             // 消息60s后才会被消费
